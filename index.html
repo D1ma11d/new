@@ -1,0 +1,1159 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <title>Дима - Python/Django Разработчик</title>
+    <meta name="description" content="Портфолио Димы - Python/Django разработчика">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.8;
+            color: #d1d1d1;
+            background: #0a0a0a;
+            overflow-x: hidden;
+            position: relative;
+        }
+        #threejs-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.6;
+        }
+        #particles-js {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            opacity: 0.4;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 1;
+        }
+        header {
+            padding: 100px 0;
+            background: linear-gradient(135deg, rgba(10, 10, 10, 0.8), rgba(20, 20, 20, 0.8));
+        }
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 40px;
+        }
+        .header-text {
+            flex: 1;
+            opacity: 0;
+            transform: translateX(-50px);
+            animation: slideInFromLeft 1s ease forwards 0.5s;
+        }
+        .header-text h1 {
+            font-size: 2.5em;
+            font-weight: 800;
+            color: #00ffcc;
+            letter-spacing: -2px;
+            text-shadow: 0 0 10px rgba(0, 255, 204, 0.3);
+        }
+        .header-text p {
+            font-size: 1.5em;
+            font-weight: 300;
+            color: #ffffff;
+            margin: 10px 0 20px;
+        }
+        .portfolio-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #ff007a;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s;
+            opacity: 0;
+            animation: fadeIn 1s ease forwards 1s;
+        }
+        .portfolio-btn:hover {
+            background: #00ffcc;
+        }
+        .header-image {
+            flex: 0 0 300px;
+            opacity: 0;
+            transform: translateX(50px);
+            animation: slideInFromRight 1s ease forwards 0.7s;
+        }
+        .header-image img {
+            width: 70%;
+            height: 230px;
+            border-radius: 50%;
+            transition: border 0.3s;
+        }
+        nav {
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(10, 10, 10, 0.95);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            opacity: 0;
+            transform: translateY(-100px);
+            animation: slideInFromTop 1s ease forwards 0.7s;
+        }
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+        }
+        nav ul li a {
+            color: #d1d1d1;
+            text-decoration: none;
+            font-weight: 400;
+            font-size: 1.2em;
+            transition: color 0.3s, text-shadow 0.3s;
+        }
+        nav ul li a:hover {
+            color: #00ffcc;
+            text-shadow: 0 0 5px rgba(0, 255, 204, 0.5);
+        }
+        section {
+            padding: 80px 0;
+            background: rgba(20, 20, 20, 0.5);
+            margin: 30px 0;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.5s ease, opacity 0.5s ease, box-shadow 0.3s ease;
+            opacity: 0;
+        }
+        section:nth-child(odd) {
+            transform: translateX(100px);
+            animation: slideInFromRight 1s ease forwards;
+        }
+        section:nth-child(even) {
+            transform: translateX(-100px);
+            animation: slideInFromLeft 1s ease forwards;
+        }
+        section.visible {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        section:hover {
+            box-shadow: 0 0 20px rgba(0, 255, 204, 0.2);
+        }
+        h2 {
+            font-size: 2.8em;
+            font-weight: 600;
+            color: #00ffcc;
+            margin-bottom: 40px;
+            text-align: center;
+            text-shadow: 0 0 10px rgba(0, 255, 204, 0.3);
+        }
+        .about {
+            text-align: center;
+        }
+        .about p {
+            font-size: 1.3em;
+            font-weight: 300;
+            max-width: 800px;
+            margin: 20px auto 0;
+            color: #d1d1d1;
+        }
+        .about img {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 20px;
+            border: 2px solid #00ffcc;
+            transition: border 0.3s;
+        }
+        .resume-btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: #ff007a;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        .resume-btn:hover {
+            background: #00ffcc;
+        }
+        .services .service-item {
+            margin-bottom: 30px;
+            padding: 25px;
+            background: rgba(26, 26, 26, 0.7);
+            border-radius: 8px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .services .service-item:hover {
+            transform: scale(1.03);
+            box-shadow: 0 0 15px rgba(0, 255, 204, 0.3);
+        }
+        .services .service-item h3 {
+            color: #00ffcc;
+            font-weight: 600;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+        .services .service-item p {
+            font-weight: 300;
+            color: #d1d1d1;
+        }
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+        }
+        .skill-item {
+            text-align: center;
+            width: 120px;
+            position: relative;
+        }
+        .skill-item svg {
+            width: 100px;
+            height: 100px;
+            transform: rotate(-90deg);
+        }
+        .skill-item circle {
+            fill: none;
+            stroke-width: 8;
+            transition: stroke-dashoffset 1s ease;
+        }
+        .skill-item .bg {
+            stroke: rgba(255, 255, 255, 0.1);
+        }
+        .skill-item .progress {
+            stroke: #ff007a;
+            stroke-dasharray: 283;
+            stroke-dashoffset: 283;
+        }
+        .skill-item i {
+            position: absolute;
+            top: 36%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2em;
+            color: #00ffcc;
+            text-shadow: 0 0 5px rgba(0, 255, 204, 0.5);
+        }
+        .skill-item span {
+            display: block;
+            margin-top: 10px;
+            font-size: 1.1em;
+            font-weight: 400;
+            color: #d1d1d1;
+        }
+        .skill-item:hover .progress {
+            filter: drop-shadow(0 0 5px rgba(255, 0, 122, 0.5));
+        }
+        .skill-item:hover i {
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+        .timeline {
+            position: relative;
+            padding-left: 60px;
+        }
+        .timeline:before {
+            content: '';
+            position: absolute;
+            left: 30px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #00ffcc;
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 40px;
+        }
+        .timeline-item:before {
+            content: '';
+            position: absolute;
+            left: -34px;
+            top: 10px;
+            width: 10px;
+            height: 10px;
+            background: #ff007a;
+            border-radius: 50%;
+        }
+        .year {
+            color: #ff007a;
+            font-weight: 600;
+        }
+        .projects .project-item {
+            margin-bottom: 30px;
+            padding: 25px;
+            background: rgba(26, 26, 26, 0.7);
+            border-radius: 8px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .projects .project-item:hover {
+            transform: scale(1.03);
+            box-shadow: 0 0 15px rgba(0, 255, 204, 0.3);
+        }
+        .projects .project-item h3 {
+            color: #00ffcc;
+            font-weight: 600;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+        .projects .project-item p {
+            font-weight: 300;
+            color: #d1d1d1;
+        }
+        .project-link {
+            display: inline-block;
+            margin-top: 10px;
+            margin-right: 15px;
+            color: #ff007a;
+            text-decoration: none;
+            transition: color 0.3s, text-shadow 0.3s;
+        }
+        .project-link:hover {
+            color: #00ffcc;
+            text-shadow: 0 0 5px rgba(0, 255, 204, 0.5);
+        }
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            text-align: center;
+        }
+        .stats .stat-item h3 {
+            font-size: 2.5em;
+            color: #ff007a;
+            font-weight: 600;
+        }
+        .stats .stat-item p {
+            font-size: 1.1em;
+            color: #d1d1d1;
+        }
+        .contact p {
+            font-size: 1.3em;
+            text-align: center;
+            margin-bottom: 15px;
+            color: #d1d1d1;
+        }
+        .contact a {
+            color: #ff007a;
+            text-decoration: none;
+            transition: color 0.3s, text-shadow 0.3s;
+        }
+        .contact a:hover {
+            color: #00ffcc;
+            text-shadow: 0 0 5px rgba(0, 255, 204, 0.5);
+        }
+        footer {
+            text-align: center;
+            padding: 40px;
+            background: rgba(10, 10, 10, 0.8);
+            color: #d1d1d1;
+            font-weight: 300;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            opacity: 0;
+            transform: translateY(100px);
+            animation: slideInFromBottom 1s ease forwards 1s;
+        }
+        #scroll-progress {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            z-index: 100;
+            opacity: 0;
+            animation: fadeIn 1s ease forwards 1.2s;
+        }
+        #scroll-progress svg {
+            transform: rotate(-90deg);
+        }
+        #scroll-progress circle {
+            fill: none;
+            stroke-width: 4;
+            transition: stroke-dashoffset 0.3s ease;
+        }
+        #scroll-progress .bg {
+            stroke: rgba(255, 255, 255, 0.1);
+        }
+        #scroll-progress .progress {
+            stroke: #00ffcc;
+            stroke-dasharray: 125.6;
+            stroke-dashoffset: 125.6;
+        }
+        #to-top {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: #ff007a;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            font-size: 1.5em;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.3s, transform 0.3s;
+            z-index: 100;
+            animation: fadeIn 1s ease forwards 1.2s;
+        }
+        #to-top.visible {
+            opacity: 0.8;
+        }
+        #to-top:hover {
+            transform: scale(1.1);
+            opacity: 1;
+        }
+        #lang-toggle {
+            position: fixed;
+            top: 85px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            background: #ff007a;
+            border: none;
+            border-radius: 50%;
+            color: #fff;
+            cursor: pointer;
+            z-index: 100;
+            transition: background 0.3s;
+            opacity: 0;
+            animation: fadeIn 1s ease forwards 1s;
+        }
+        #lang-toggle:hover {
+            background: #00ffcc;
+        }
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0a0a0a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s;
+        }
+        #preloader.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        .loader {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #00ffcc;
+            border-top: 5px solid transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        @keyframes slideInFromTop {
+            from { transform: translateY(-100px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        @keyframes slideInFromBottom {
+            from { transform: translateY(100px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        @keyframes slideInFromLeft {
+            from { transform: translateX(-100px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes slideInFromRight {
+            from { transform: translateX(100px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px 10px;
+                max-width: 100%;
+            }
+            header {
+                padding: 60px 0;
+            }
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            .header-text {
+                transform: translateY(-50px);
+                animation: slideInFromTop 1s ease forwards 0.5s;
+            }
+            .header-text h1 {
+                font-size: 1.8em;
+            }
+            .header-text p {
+                font-size: 1.2em;
+            }
+            .header-image {
+                width: 150px;
+                transform: translateY(50px);
+                animation: slideInFromBottom 1s ease forwards 0.7s;
+            }
+            .header-image img {
+                width: 100%;
+                height: 150px;
+            }
+            nav ul {
+                flex-direction: column;
+                gap: 15px;
+            }
+            nav ul li a {
+                font-size: 1em;
+            }
+            h2 {
+                font-size: 1.5em;
+            }
+            section {
+                padding: 40px 0;
+                margin: 20px 0;
+            }
+            .about p {
+                font-size: 1.1em;
+            }
+            .about img {
+                width: 120px;
+                height: 120px;
+            }
+            .services .service-item, .projects .project-item {
+                padding: 15px;
+            }
+            .services .service-item h3, .projects .project-item h3 {
+                font-size: 1.3em;
+            }
+            .services .service-item p, .projects .project-item p {
+                font-size: 1em;
+            }
+            .skills {
+                gap: 20px;
+            }
+            .skill-item {
+                width: 80px;
+            }
+            .skill-item svg {
+                width: 60px;
+                height: 60px;
+            }
+            .skill-item i {
+                font-size: 1.2em;
+            }
+            .skill-item span {
+                font-size: 0.9em;
+            }
+            .timeline {
+                padding-left: 20px;
+            }
+            .timeline:before {
+                left: 10px;
+            }
+            .timeline-item:before {
+                left: -14px;
+            }
+            .timeline-item h3 {
+                font-size: 1.2em;
+            }
+            .stats {
+                flex-direction: column;
+                gap: 20px;
+            }
+            .stats .stat-item h3 {
+                font-size: 2em;
+            }
+            .contact p {
+                font-size: 1.1em;
+            }
+            footer {
+                padding: 20px;
+                font-size: 0.9em;
+            }
+            #to-top, #scroll-progress, #lang-toggle {
+                width: 40px;
+                height: 40px;
+            }
+            #to-top {
+                bottom: 60px;
+            }
+        }
+        @media (min-width: 481px) and (max-width: 768px) {
+            .container {
+                padding: 30px 15px;
+            }
+            header {
+                padding: 80px 0;
+            }
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            .header-text {
+                transform: translateY(-50px);
+                animation: slideInFromTop 1s ease forwards 0.5s;
+            }
+            .header-text h1 {
+                font-size: 2.2em;
+            }
+            .header-text p {
+                font-size: 1.4em;
+            }
+            .header-image {
+                width: 200px;
+                transform: translateY(50px);
+                animation: slideInFromBottom 1s ease forwards 0.7s;
+            }
+            nav ul {
+                flex-direction: column;
+                gap: 20px;
+            }
+            h2 {
+                font-size: 2em;
+            }
+            section {
+                padding: 60px 0;
+            }
+            .services .service-item, .projects .project-item {
+                padding: 20px;
+            }
+            .skill-item {
+                width: 100px;
+            }
+            .skill-item svg {
+                width: 80px;
+                height: 80px;
+            }
+            .skill-item i {
+                font-size: 1.5em;
+            }
+            .stats {
+                gap: 30px;
+            }
+        }
+        @media (min-width: 1201px) {
+            .container {
+                max-width: 1200px;
+            }
+            .header-text h1 {
+                font-size: 3em;
+            }
+            .header-text p {
+                font-size: 1.8em;
+            }
+            .header-image {
+                flex: 0 0 350px;
+            }
+            .header-image img {
+                width: 70%;
+                height: 230px;
+            }
+            nav ul {
+                gap: 60px;
+            }
+            h2 {
+                font-size: 3em;
+            }
+            .services .service-item, .projects .project-item {
+                padding: 30px;
+            }
+            .skill-item {
+                width: 140px;
+            }
+            .skill-item svg {
+                width: 120px;
+                height: 120px;
+            }
+            .skill-item i {
+                font-size: 2.5em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="preloader">
+        <div class="loader"></div>
+    </div>
+    <div id="particles-js"></div>
+    <div id="threejs-background"></div>
+    <div id="scroll-progress">
+        <svg width="50" height="50">
+            <circle class="bg" cx="25" cy="25" r="20" />
+            <circle class="progress" cx="25" cy="25" r="20" />
+        </svg>
+    </div>
+    <button id="to-top" title="Наверх"><i class="fas fa-arrow-up"></i></button>
+    <button id="lang-toggle" title="Сменить язык">EN</button>
+    <nav>
+        <ul>
+            <li><a href="#about" data-lang-key="nav-about">Обо мне</a></li>
+            <li><a href="#services" data-lang-key="nav-services">Услуги</a></li>
+            <li><a href="#skills" data-lang-key="nav-skills">Навыки</a></li>
+            <li><a href="#timeline" data-lang-key="nav-timeline">Мой путь</a></li>
+            <li><a href="#stats" data-lang-key="nav-stats">Статистика</a></li>
+            <li><a href="#projects" data-lang-key="nav-projects">Проекты</a></li>
+            <li><a href="#contact" data-lang-key="nav-contact">Контакты</a></li>
+        </ul>
+    </nav>
+    <header>
+        <div class="container header-content">
+            <div class="header-text">
+                <h1 id="typed-name"></h1>
+                <p data-lang-key="header-subtitle">Python/Django Разработчик</p>
+                <a href="#projects" class="portfolio-btn" data-lang-key="portfolio-btn">Мое портфолио</a>
+            </div>
+            <div class="header-image">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSO37v_q0KYG_wqTvUnNpUTk6men_nyD-3_ZQ&s" alt="Фото профиля">
+            </div>
+        </div>
+    </header>
+    <div class="container">
+        <section id="about" class="about">
+            <h2 data-lang-key="about-title">Обо мне</h2>
+            <p data-lang-key="about-text">Привет! Я Дима, разработчик на Python и Django. Создаю веб-приложения, решаю сложные задачи и стремлюсь к чистому, эффективному коду. Люблю минимализм и технологии.</p>
+            <a href="path/to/resume.pdf" download class="resume-btn" data-lang-key="resume-btn">Скачать резюме</a>
+        </section>
+        <section id="services" class="services">
+            <h2 data-lang-key="services-title">Услуги</h2>
+            <div class="service-item">
+                <h3 data-lang-key="service-1-title">Разработка веб-приложений</h3>
+                <p data-lang-key="service-1-text">Создание современных и масштабируемых веб-приложений на Python и Django с акцентом на производительность и удобство использования.</p>
+            </div>
+            <div class="service-item">
+                <h3 data-lang-key="service-2-title">API интеграция</h3>
+                <p data-lang-key="service-2-text">Разработка и интеграция REST API для взаимодействия с мобильными приложениями, фронтендом или сторонними сервисами.</p>
+            </div>
+            <div class="service-item">
+                <h3 data-lang-key="service-3-title">Оптимизация кода</h3>
+                <p data-lang-key="service-3-text">Анализ и улучшение существующего кода для повышения скорости работы и снижения нагрузки на сервер.</p>
+            </div>
+        </section>
+        <section id="skills" class="skills">
+            <h2 data-lang-key="skills-title">Навыки</h2>
+            <div class="skills">
+                <div class="skill-item">
+                    <svg>
+                        <circle class="bg" cx="50" cy="50" r="45" />
+                        <circle class="progress" cx="50" cy="50" r="45" data-percent="90" />
+                    </svg>
+                    <i class="fab fa-python"></i>
+                    <span>Python</span>
+                </div>
+                <div class="skill-item">
+                    <svg>
+                        <circle class="bg" cx="50" cy="50" r="45" />
+                        <circle class="progress" cx="50" cy="50" r="45" data-percent="85" />
+                    </svg>
+                    <i class="fas fa-server"></i>
+                    <span>Django</span>
+                </div>
+                <div class="skill-item">
+                    <svg>
+                        <circle class="bg" cx="50" cy="50" r="45" />
+                        <circle class="progress" cx="50" cy="50" r="45" data-percent="70" />
+                    </svg>
+                    <i class="fab fa-html5"></i>
+                    <span>HTML/CSS</span>
+                </div>
+                <div class="skill-item">
+                    <svg>
+                        <circle class="bg" cx="50" cy="50" r="45" />
+                        <circle class="progress" cx="50" cy="50" r="45" data-percent="65" />
+                    </svg>
+                    <i class="fab fa-js"></i>
+                    <span>JavaScript</span>
+                </div>
+                <div class="skill-item">
+                    <svg>
+                        <circle class="bg" cx="50" cy="50" r="45" />
+                        <circle class="progress" cx="50" cy="50" r="45" data-percent="80" />
+                    </svg>
+                    <i class="fas fa-database"></i>
+                    <span>PostgreSQL</span>
+                </div>
+                <div class="skill-item">
+                    <svg>
+                        <circle class="bg" cx="50" cy="50" r="45" />
+                        <circle class="progress" cx="50" cy="50" r="45" data-percent="75" />
+                    </svg>
+                    <i class="fab fa-git-alt"></i>
+                    <span>Git</span>
+                </div>
+                <div class="skill-item">
+                    <svg>
+                        <circle class="bg" cx="50" cy="50" r="45" />
+                        <circle class="progress" cx="50" cy="50" r="45" data-percent="70" />
+                    </svg>
+                    <i class="fas fa-exchange-alt"></i>
+                    <span>REST API</span>
+                </div>
+            </div>
+        </section>
+        <section id="timeline" class="timeline">
+            <h2 data-lang-key="timeline-title">Мой путь</h2>
+            <div class="timeline-item">
+                <span class="year">2022</span>
+                <h3 data-lang-key="timeline-1-title">Начало карьеры</h3>
+                <p data-lang-key="timeline-1-text">Стал разработчиком на Python.</p>
+            </div>
+            <div class="timeline-item">
+                <span class="year">2023</span>
+                <h3 data-lang-key="timeline-2-title">Первый крупный проект</h3>
+                <p data-lang-key="timeline-2-text">Создал веб-приложение для клиента.</p>
+            </div>
+            <div class="timeline-item">
+                <span class="year">2025</span>
+                <h3 data-lang-key="timeline-3-title">Создание портфолио</h3>
+                <p data-lang-key="timeline-3-text">Разработал этот сайт для демонстрации навыков.</p>
+            </div>
+        </section>
+        <section id="stats" class="stats">
+            <h2 data-lang-key="stats-title">Статистика</h2>
+            <div class="stats">
+                <div class="stat-item">
+                    <h3 class="counter" data-target="3">0</h3>
+                    <p data-lang-key="stats-1">Года опыта</p>
+                </div>
+                <div class="stat-item">
+                    <h3 class="counter" data-target="10">0</h3>
+                    <p data-lang-key="stats-2">Проектов</p>
+                </div>
+                <div class="stat-item">
+                    <h3 class="counter" data-target="500">0</h3>
+                    <p data-lang-key="stats-3">Чашек кофе</p>
+                </div>
+            </div>
+        </section>
+        <section id="projects" class="projects">
+            <h2 data-lang-key="projects-title">Проекты</h2>
+            <div class="project-item">
+                <h3 data-lang-key="project-1-title">Проект 1</h3>
+                <p data-lang-key="project-1-text">Веб-приложение на Django для управления задачами с интуитивным интерфейсом.</p>
+                <a href="https://example.com" target="_blank" class="project-link" data-lang-key="project-demo">Посмотреть демо</a>
+                <a href="https://github.com/yourusername/project1" target="_blank" class="project-link" data-lang-key="project-github">GitHub</a>
+            </div>
+            <div class="project-item">
+                <h3 data-lang-key="project-2-title">Проект 2</h3>
+                <p data-lang-key="project-2-text">REST API на Django REST Framework для мобильного приложения.</p>
+                <a href="https://example.com" target="_blank" class="project-link" data-lang-key="project-demo">Посмотреть демо</a>
+                <a href="https://github.com/yourusername/project2" target="_blank" class="project-link" data-lang-key="project-github">GitHub</a>
+            </div>
+        </section>
+        <section id="contact" class="contact">
+            <h2 data-lang-key="contact-title">Контакты</h2>
+            <p data-lang-key="contact-email">Пишите мне: <a href="mailto:your.dimash_zdess@icloud.com">your.dimash_zdess@icloud.com</a></p>
+            <p><i class="fab fa-github"></i> <a href="https://github.com/yourusername" target="_blank">GitHub</a></p>
+        </section>
+    </div>
+    <footer>
+        <p data-lang-key="footer">© 2025 Дима. Все права защищены.</p>
+    </footer>
+    <script>
+        const translations = {
+            ru: {
+                "header-subtitle": "Python/Django Разработчик",
+                "portfolio-btn": "Мое портфолио",
+                "nav-about": "Обо мне",
+                "nav-services": "Услуги",
+                "nav-skills": "Навыки",
+                "nav-timeline": "Мой путь",
+                "nav-stats": "Статистика",
+                "nav-projects": "Проекты",
+                "nav-contact": "Контакты",
+                "about-title": "Обо мне",
+                "about-text": "Привет! Я Дима, разработчик на Python и Django. Создаю веб-приложения, решаю сложные задачи и стремлюсь к чистому, эффективному коду. Люблю минимализм и технологии.",
+                "resume-btn": "Скачать резюме",
+                "services-title": "Услуги",
+                "service-1-title": "Разработка веб-приложений",
+                "service-1-text": "Создание современных и масштабируемых веб-приложений на Python и Django с акцентом на производительность и удобство использования.",
+                "service-2-title": "API интеграция",
+                "service-2-text": "Разработка и интеграция REST API для взаимодействия с мобильными приложениями, фронтендом или сторонними сервисами.",
+                "service-3-title": "Оптимизация кода",
+                "service-3-text": "Анализ и улучшение существующего кода для повышения скорости работы и снижения нагрузки на сервер.",
+                "skills-title": "Навыки",
+                "timeline-title": "Мой путь",
+                "timeline-1-title": "Начало карьеры",
+                "timeline-1-text": "Стал разработчиком на Python.",
+                "timeline-2-title": "Первый крупный проект",
+                "timeline-2-text": "Создал веб-приложение для клиента.",
+                "timeline-3-title": "Создание портфолио",
+                "timeline-3-text": "Разработал этот сайт для демонстрации навыков.",
+                "stats-title": "Статистика",
+                "stats-1": "Года опыта",
+                "stats-2": "Проектов",
+                "stats-3": "Чашек кофе",
+                "projects-title": "Проекты",
+                "project-1-title": "Проект 1",
+                "project-1-text": "Веб-приложение на Django для управления задачами с интуитивным интерфейсом.",
+                "project-2-title": "Проект 2",
+                "project-2-text": "REST API на Django REST Framework для мобильного приложения.",
+                "project-demo": "Посмотреть демо",
+                "project-github": "GitHub",
+                "contact-title": "Контакты",
+                "contact-email": "Пишите мне: ",
+                "footer": "© 2025 Дима. Все права защищены."
+            },
+            en: {
+                "header-subtitle": "Python/Django Developer",
+                "portfolio-btn": "My Portfolio",
+                "nav-about": "About Me",
+                "nav-services": "Services",
+                "nav-skills": "Skills",
+                "nav-timeline": "My Journey",
+                "nav-stats": "Stats",
+                "nav-projects": "Projects",
+                "nav-contact": "Contact",
+                "about-title": "About Me",
+                "about-text": "Hi! I'm Dima, a Python and Django developer. I create web applications, solve complex problems, and strive for clean, efficient code. I love minimalism and technology.",
+                "resume-btn": "Download Resume",
+                "services-title": "Services",
+                "service-1-title": "Web Application Development",
+                "service-1-text": "Building modern and scalable web applications with Python and Django, focusing on performance and usability.",
+                "service-2-title": "API Integration",
+                "service-2-text": "Developing and integrating REST APIs for interaction with mobile apps, frontends, or third-party services.",
+                "service-3-title": "Code Optimization",
+                "service-3-text": "Analyzing and improving existing code to enhance performance and reduce server load.",
+                "skills-title": "Skills",
+                "timeline-title": "My Journey",
+                "timeline-1-title": "Career Start",
+                "timeline-1-text": "Started as a Python developer.",
+                "timeline-2-title": "First Major Project",
+                "timeline-2-text": "Built a web application for a client.",
+                "timeline-3-title": "Portfolio Creation",
+                "timeline-3-text": "Developed this site to showcase my skills.",
+                "stats-title": "Statistics",
+                "stats-1": "Years of Experience",
+                "stats-2": "Projects",
+                "stats-3": "Cups of Coffee",
+                "projects-title": "Projects",
+                "project-1-title": "Project 1",
+                "project-1-text": "A Django web application for task management with an intuitive interface.",
+                "project-2-title": "Project 2",
+                "project-2-text": "REST API built with Django REST Framework for a mobile application.",
+                "project-demo": "View Demo",
+                "project-github": "GitHub",
+                "contact-title": "Contact",
+                "contact-email": "Write to me: ",
+                "footer": "© 2025 Dima. All rights reserved."
+            }
+        };
+        let currentLang = 'ru';
+        function updateLanguage(lang) {
+            document.querySelectorAll('[data-lang-key]').forEach(element => {
+                const key = element.getAttribute('data-lang-key');
+                if (element.tagName === 'A' && (key === 'project-demo' || key === 'project-github' || key === 'resume-btn' || key === 'portfolio-btn')) {
+                    element.textContent = translations[lang][key];
+                } else if (key === 'contact-email') {
+                    element.innerHTML = `${translations[lang][key]}<a href="mailto:your.dimash_zdess@icloud.com">your.dimash_zdess@icloud.com</a>`;
+                } else {
+                    element.textContent = translations[lang][key];
+                }
+            });
+            document.documentElement.lang = lang;
+        }
+        document.getElementById('lang-toggle').addEventListener('click', () => {
+            currentLang = currentLang === 'ru' ? 'en' : 'ru';
+            document.getElementById('lang-toggle').textContent = currentLang === 'ru' ? 'EN' : 'RU';
+            updateLanguage(currentLang);
+        });
+        window.addEventListener('load', () => {
+            const preloader = document.getElementById('preloader');
+            preloader.classList.add('hidden');
+            setTimeout(() => preloader.remove(), 500);
+        });
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 80, density: { enable: true, value_area: 800 } },
+                color: { value: '#00ffcc' },
+                shape: { type: 'circle' },
+                opacity: { value: 0.5 },
+                size: { value: 3, random: true },
+                move: { enable: true, speed: 2 }
+            },
+            interactivity: {
+                events: { onhover: { enable: true, mode: 'repulse' }, onclick: { enable: true, mode: 'push' } }
+            }
+        });
+        if (window.innerWidth < 768) {
+            particlesJS('particles-js', {
+                particles: { number: { value: 40 } }
+            });
+        }
+        const sections = document.querySelectorAll('section');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    if (entry.target.id === 'skills') {
+                        animateSkills();
+                    }
+                    if (entry.target.id === 'stats') {
+                        animateCounters();
+                    }
+                }
+            });
+        }, { threshold: 0.1 });
+        sections.forEach(section => observer.observe(section));
+        document.querySelectorAll('nav ul li a, .portfolio-btn').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        const container = document.getElementById('threejs-background');
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        container.appendChild(renderer.domElement);
+        const geometry = new THREE.SphereGeometry(10, 32, 32);
+        const material = new THREE.MeshBasicMaterial({ color: 0x00ffcc, wireframe: true });
+        const sphere = new THREE.Mesh(geometry, material);
+        sphere.position.set(-20, 10, 0);
+        scene.add(sphere);
+        const geometry2 = new THREE.SphereGeometry(15, 32, 32);
+        const material2 = new THREE.MeshBasicMaterial({ color: 0xff007a, wireframe: true });
+        const sphere2 = new THREE.Mesh(geometry2, material2);
+        sphere2.position.set(25, -15, 0);
+        scene.add(sphere2);
+        if (window.innerWidth < 768) {
+            sphere.scale.set(0.5, 0.5, 0.5);
+            sphere2.scale.set(0.5, 0.5, 0.5);
+        }
+        camera.position.z = 30;
+        function animate() {
+            requestAnimationFrame(animate);
+            sphere.rotation.x += 0.003;
+            sphere.rotation.y += 0.003;
+            sphere2.rotation.x -= 0.002;
+            sphere2.rotation.y -= 0.002;
+            renderer.render(scene, camera);
+        }
+        animate();
+        window.addEventListener('mousemove', (e) => {
+            const mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+            const mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
+            sphere.position.x = -20 + mouseX * 5;
+            sphere.position.y = 10 + mouseY * 5;
+            sphere2.position.x = 25 - mouseX * 5;
+            sphere2.position.y = -15 - mouseY * 5;
+        });
+        window.addEventListener('resize', () => {
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+            renderer.setSize(width, height);
+            camera.aspect = width / height;
+            camera.updateProjectionMatrix();
+        });
+        const progressCircle = document.querySelector('#scroll-progress .progress');
+        const totalHeight = document.body.scrollHeight - window.innerHeight;
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.scrollY;
+            const progress = (scrollTop / totalHeight) * 125.6;
+            progressCircle.style.strokeDashoffset = 125.6 - progress;
+        });
+        const toTopBtn = document.getElementById('to-top');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                toTopBtn.classList.add('visible');
+            } else {
+                toTopBtn.classList.remove('visible');
+            }
+        });
+        toTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        const nameElement = document.getElementById('typed-name');
+        const text1 = "мой лучший учитель Шухрат ";
+        const text2 = "Дилмухаммад Умарходжаев";
+        function typeText(element, text, callback) {
+            let index = 0;
+            element.textContent = "";
+            function type() {
+                if (index < text.length) {
+                    element.textContent += text[index];
+                    index++;
+                    setTimeout(type, 100);
+                } else if (callback) {
+                    setTimeout(callback, 1000);
+                }
+            }
+            type();
+        }
+        function eraseText(element, callback) {
+            let text = element.textContent;
+            let index = text.length;
+            function erase() {
+                if (index >= 0) {
+                    element.textContent = text.slice(0, index);
+                    index--;
+                    setTimeout(erase, 50);
+                } else if (callback) {
+                    setTimeout(callback, 500);
+                }
+            }
+            erase();
+        }
+        typeText(nameElement, text1, () => {
+            eraseText(nameElement, () => {
+                typeText(nameElement, text2);
+            });
+        });
+        function animateSkills() {
+            const progressBars = document.querySelectorAll('.skill-item .progress');
+            progressBars.forEach(bar => {
+                const percent = +bar.getAttribute('data-percent');
+                const offset = 283 - (283 * percent) / 100;
+                bar.style.strokeDashoffset = offset;
+            });
+        }
+        function animateCounters() {
+            const counters = document.querySelectorAll('.counter');
+            counters.forEach(counter => {
+                const target = +counter.getAttribute('data-target');
+                let count = 0;
+                const speed = 50;
+                const updateCount = () => {
+                    const increment = target / speed;
+                    count += increment;
+                    if (count < target) {
+                        counter.textContent = Math.ceil(count);
+                        setTimeout(updateCount, 20);
+                    } else {
+                        counter.textContent = target;
+                    }
+                };
+                updateCount();
+            });
+        }
+        updateLanguage(currentLang);
+    </script>
+</body>
+</html>
