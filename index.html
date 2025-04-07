@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <title>Дима - Python/Django Разработчик</title>
     <meta name="description" content="Портфолио Димы - Python/Django разработчика">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
@@ -22,6 +22,8 @@
             background: #0a0a0a;
             overflow-x: hidden;
             position: relative;
+            padding-top: env(safe-area-inset-top);
+            padding-bottom: env(safe-area-inset-bottom);
         }
         #threejs-background {
             position: fixed;
@@ -98,8 +100,8 @@
             animation: slideInFromRight 1s ease forwards 0.7s;
         }
         .header-image img {
-            width: 70%;
-            height: 230px;
+            width: 80%;
+            height: 210px;
             border-radius: 50%;
             transition: border 0.3s;
         }
@@ -490,10 +492,313 @@
             from { opacity: 0; }
             to { opacity: 1; }
         }
-        @media (max-width: 480px) {
+        @media (max-width: 390px) and (max-height: 844px) {
             .container {
-                padding: 20px 10px;
+                padding: 15px 10px;
                 max-width: 100%;
+            }
+            header {
+                padding: 50px 0;
+            }
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 20px;
+            }
+            .header-text {
+                transform: translateY(-30px);
+                animation: slideInFromTop 1s ease forwards 0.5s;
+            }
+            .header-text h1 {
+                font-size: 1.6em;
+                letter-spacing: -1px;
+            }
+            .header-text p {
+                font-size: 1em;
+                margin: 8px 0 15px;
+            }
+            .portfolio-btn {
+                padding: 8px 15px;
+                font-size: 0.9em;
+            }
+            .header-image {
+                width: 130px;
+                transform: translateY(30px);
+                animation: slideInFromBottom 1s ease forwards 0.7s;
+            }
+            .header-image img {
+                width: 100%;
+                height: 130px;
+            }
+            nav {
+                padding: 15px 0;
+            }
+            nav ul {
+                flex-direction: column;
+                gap: 12px;
+            }
+            nav ul li a {
+                font-size: 1em;
+            }
+            section {
+                padding: 30px 0;
+                margin: 15px 0;
+            }
+            h2 {
+                font-size: 1.4em;
+                margin-bottom: 20px;
+            }
+            .about p {
+                font-size: 1em;
+                max-width: 90%;
+            }
+            .about img {
+                width: 100px;
+                height: 100px;
+            }
+            .resume-btn {
+                padding: 8px 15px;
+                font-size: 0.9em;
+            }
+            .services .service-item, .projects .project-item {
+                padding: 15px;
+                margin-bottom: 20px;
+            }
+            .services .service-item h3, .projects .project-item h3 {
+                font-size: 1.2em;
+                margin-bottom: 10px;
+            }
+            .services .service-item p, .projects .project-item p {
+                font-size: 0.9em;
+            }
+            .skills {
+                gap: 15px;
+            }
+            .skill-item {
+                width: 70px;
+            }
+            .skill-item svg {
+                width: 55px;
+                height: 55px;
+            }
+            .skill-item i {
+                font-size: 1.2em;
+            }
+            .skill-item span {
+                font-size: 0.8em;
+                margin-top: 5px;
+            }
+            .timeline {
+                padding-left: 15px;
+            }
+            .timeline:before {
+                left: 7px;
+            }
+            .timeline-item {
+                margin-bottom: 25px;
+            }
+            .timeline-item:before {
+                left: -11px;
+                width: 8px;
+                height: 8px;
+            }
+            .timeline-item h3 {
+                font-size: 1.1em;
+            }
+            .timeline-item p {
+                font-size: 0.9em;
+            }
+            .stats {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .stats .stat-item h3 {
+                font-size: 1.8em;
+            }
+            .stats .stat-item p {
+                font-size: 0.9em;
+            }
+            .contact p {
+                font-size: 1em;
+            }
+            .project-link {
+                font-size: 0.9em;
+                margin-right: 10px;
+            }
+            footer {
+                padding: 20px;
+                font-size: 0.8em;
+            }
+            #scroll-progress, #to-top {
+                width: 40px;
+                height: 40px;
+            }
+            #to-top {
+                bottom: 70px;
+                font-size: 1.2em;
+            }
+            #lang-toggle {
+                top: 70px;
+                width: 35px;
+                height: 35px;
+                font-size: 0.9em;
+            }
+        }
+        @media (min-width: 375px) and (max-width: 390px) and (max-height: 812px) {
+            .container {
+                padding: 15px 10px;
+                max-width: 100%;
+            }
+            header {
+                padding: 50px 0;
+            }
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 20px;
+            }
+            .header-text {
+                transform: translateY(-30px);
+                animation: slideInFromTop 1s ease forwards 0.5s;
+            }
+            .header-text h1 {
+                font-size: 1.6em;
+                letter-spacing: -1px;
+            }
+            .header-text p {
+                font-size: 1em;
+                margin: 8px 0 15px;
+            }
+            .portfolio-btn {
+                padding: 8px 15px;
+                font-size: 0.9em;
+            }
+            .header-image {
+                width: 130px;
+                transform: translateY(30px);
+                animation: slideInFromBottom 1s ease forwards 0.7s;
+            }
+            .header-image img {
+                width: 100%;
+                height: 130px;
+            }
+            nav {
+                padding: 15px 0;
+            }
+            nav ul {
+                flex-direction: column;
+                gap: 12px;
+            }
+            nav ul li a {
+                font-size: 1em;
+            }
+            section {
+                padding: 30px 0;
+                margin: 15px 0;
+            }
+            h2 {
+                font-size: 1.4em;
+                margin-bottom: 20px;
+            }
+            .about p {
+                font-size: 1em;
+                max-width: 90%;
+            }
+            .about img {
+                width: 100px;
+                height: 100px;
+            }
+            .resume-btn {
+                padding: 8px 15px;
+                font-size: 0.9em;
+            }
+            .services .service-item, .projects .project-item {
+                padding: 15px;
+                margin-bottom: 20px;
+            }
+            .services .service-item h3, .projects .project-item h3 {
+                font-size: 1.2em;
+                margin-bottom: 10px;
+            }
+            .services .service-item p, .projects .project-item p {
+                font-size: 0.9em;
+            }
+            .skills {
+                gap: 15px;
+            }
+            .skill-item {
+                width: 70px;
+            }
+            .skill-item svg {
+                width: 55px;
+                height: 55px;
+            }
+            .skill-item i {
+                font-size: 1.2em;
+            }
+            .skill-item span {
+                font-size: 0.8em;
+                margin-top: 5px;
+            }
+            .timeline {
+                padding-left: 15px;
+            }
+            .timeline:before {
+                left: 7px;
+            }
+            .timeline-item {
+                margin-bottom: 25px;
+            }
+            .timeline-item:before {
+                left: -11px;
+                width: 8px;
+                height: 8px;
+            }
+            .timeline-item h3 {
+                font-size: 1.1em;
+            }
+            .timeline-item p {
+                font-size: 0.9em;
+            }
+            .stats {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .stats .stat-item h3 {
+                font-size: 1.8em;
+            }
+            .stats .stat-item p {
+                font-size: 0.9em;
+            }
+            .contact p {
+                font-size: 1em;
+            }
+            .project-link {
+                font-size: 0.9em;
+                margin-right: 10px;
+            }
+            footer {
+                padding: 20px;
+                font-size: 0.8em;
+            }
+            #scroll-progress, #to-top {
+                width: 40px;
+                height: 40px;
+            }
+            #to-top {
+                bottom: 70px;
+                font-size: 1.2em;
+            }
+            #lang-toggle {
+                top: 70px;
+                width: 35px;
+                height: 35px;
+                font-size: 0.9em;
+            }
+        }
+        @media (min-width: 391px) and (max-width: 768px) {
+            .container {
+                padding: 20px 15px;
             }
             header {
                 padding: 60px 0;
@@ -502,159 +807,34 @@
                 flex-direction: column;
                 text-align: center;
             }
-            .header-text {
-                transform: translateY(-50px);
-                animation: slideInFromTop 1s ease forwards 0.5s;
-            }
             .header-text h1 {
-                font-size: 1.8em;
+                font-size: 2em;
             }
             .header-text p {
                 font-size: 1.2em;
             }
             .header-image {
                 width: 150px;
-                transform: translateY(50px);
-                animation: slideInFromBottom 1s ease forwards 0.7s;
-            }
-            .header-image img {
-                width: 100%;
-                height: 150px;
             }
             nav ul {
                 flex-direction: column;
                 gap: 15px;
             }
-            nav ul li a {
-                font-size: 1em;
-            }
             h2 {
-                font-size: 1.5em;
+                font-size: 1.8em;
             }
             section {
                 padding: 40px 0;
-                margin: 20px 0;
-            }
-            .about p {
-                font-size: 1.1em;
-            }
-            .about img {
-                width: 120px;
-                height: 120px;
-            }
-            .services .service-item, .projects .project-item {
-                padding: 15px;
-            }
-            .services .service-item h3, .projects .project-item h3 {
-                font-size: 1.3em;
-            }
-            .services .service-item p, .projects .project-item p {
-                font-size: 1em;
-            }
-            .skills {
-                gap: 20px;
             }
             .skill-item {
-                width: 80px;
+                width: 90px;
             }
             .skill-item svg {
-                width: 60px;
-                height: 60px;
-            }
-            .skill-item i {
-                font-size: 1.2em;
-            }
-            .skill-item span {
-                font-size: 0.9em;
-            }
-            .timeline {
-                padding-left: 20px;
-            }
-            .timeline:before {
-                left: 10px;
-            }
-            .timeline-item:before {
-                left: -14px;
-            }
-            .timeline-item h3 {
-                font-size: 1.2em;
-            }
-            .stats {
-                flex-direction: column;
-                gap: 20px;
-            }
-            .stats .stat-item h3 {
-                font-size: 2em;
-            }
-            .contact p {
-                font-size: 1.1em;
-            }
-            footer {
-                padding: 20px;
-                font-size: 0.9em;
-            }
-            #to-top, #scroll-progress, #lang-toggle {
-                width: 40px;
-                height: 40px;
-            }
-            #to-top {
-                bottom: 60px;
+                width: 70px;
+                height: 70px;
             }
         }
-        @media (min-width: 481px) and (max-width: 768px) {
-            .container {
-                padding: 30px 15px;
-            }
-            header {
-                padding: 80px 0;
-            }
-            .header-content {
-                flex-direction: column;
-                text-align: center;
-            }
-            .header-text {
-                transform: translateY(-50px);
-                animation: slideInFromTop 1s ease forwards 0.5s;
-            }
-            .header-text h1 {
-                font-size: 2.2em;
-            }
-            .header-text p {
-                font-size: 1.4em;
-            }
-            .header-image {
-                width: 200px;
-                transform: translateY(50px);
-                animation: slideInFromBottom 1s ease forwards 0.7s;
-            }
-            nav ul {
-                flex-direction: column;
-                gap: 20px;
-            }
-            h2 {
-                font-size: 2em;
-            }
-            section {
-                padding: 60px 0;
-            }
-            .services .service-item, .projects .project-item {
-                padding: 20px;
-            }
-            .skill-item {
-                width: 100px;
-            }
-            .skill-item svg {
-                width: 80px;
-                height: 80px;
-            }
-            .skill-item i {
-                font-size: 1.5em;
-            }
-            .stats {
-                gap: 30px;
-            }
-        }
-        @media (min-width: 1201px) {
+        @media (min-width: 769px) {
             .container {
                 max-width: 1200px;
             }
@@ -668,27 +848,14 @@
                 flex: 0 0 350px;
             }
             .header-image img {
-                width: 70%;
-                height: 230px;
+                width: 100%;
+                height: 250px;
             }
             nav ul {
                 gap: 60px;
             }
             h2 {
                 font-size: 3em;
-            }
-            .services .service-item, .projects .project-item {
-                padding: 30px;
-            }
-            .skill-item {
-                width: 140px;
-            }
-            .skill-item svg {
-                width: 120px;
-                height: 120px;
-            }
-            .skill-item i {
-                font-size: 2.5em;
             }
         }
     </style>
@@ -997,9 +1164,9 @@
                 events: { onhover: { enable: true, mode: 'repulse' }, onclick: { enable: true, mode: 'push' } }
             }
         });
-        if (window.innerWidth < 768) {
+        if (window.innerWidth <= 390) {
             particlesJS('particles-js', {
-                particles: { number: { value: 40 } }
+                particles: { number: { value: 30 } }
             });
         }
         const sections = document.querySelectorAll('section');
@@ -1043,9 +1210,9 @@
         const sphere2 = new THREE.Mesh(geometry2, material2);
         sphere2.position.set(25, -15, 0);
         scene.add(sphere2);
-        if (window.innerWidth < 768) {
-            sphere.scale.set(0.5, 0.5, 0.5);
-            sphere2.scale.set(0.5, 0.5, 0.5);
+        if (window.innerWidth <= 390) {
+            sphere.scale.set(0.4, 0.4, 0.4);
+            sphere2.scale.set(0.4, 0.4, 0.4);
         }
         camera.position.z = 30;
         function animate() {
